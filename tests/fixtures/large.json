@@ -1,0 +1,22 @@
+[
+    {"id": 1, "status": "active", "role": "admin", "department": "engineering", "verified": true},
+    {"id": 2, "status": "active", "role": "admin", "department": "engineering", "verified": true},
+    {"id": 3, "status": "active", "role": "admin", "department": "engineering", "verified": true},
+    {"id": 4, "status": "inactive", "role": "user", "department": "sales", "verified": false},
+    {"id": 5, "status": "inactive", "role": "user", "department": "sales", "verified": false},
+    {"id": 6, "status": "active", "role": "admin", "department": "engineering", "verified": true},
+    {"id": 7, "status": "active", "role": "viewer", "department": "marketing", "verified": true},
+    {"id": 8, "status": "active", "role": "viewer", "department": "marketing", "verified": true},
+    {"id": 9, "status": "pending", "role": "user", "department": "support", "verified": false},
+    {"id": 10, "status": "pending", "role": "user", "department": "support", "verified": false},
+    {"id": 11, "status": "active", "role": "admin", "department": "engineering", "verified": true},
+    {"id": 12, "status": "active", "role": "admin", "department": "engineering", "verified": true},
+    {"id": 13, "status": "inactive", "role": "user", "department": "sales", "verified": false},
+    {"id": 14, "status": "inactive", "role": "user", "department": "sales", "verified": false},
+    {"id": 15, "status": "active", "role": "viewer", "department": "marketing", "verified": true},
+    {"id": 16, "status": "active", "role": "viewer", "department": "marketing", "verified": true},
+    {"id": 17, "status": "pending", "role": "user", "department": "support", "verified": false},
+    {"id": 18, "status": "pending", "role": "user", "department": "support", "verified": false},
+    {"id": 19, "status": "active", "role": "admin", "department": "engineering", "verified": true},
+    {"id": 20, "status": "active", "role": "admin", "department": "engineering", "verified": true}
+]

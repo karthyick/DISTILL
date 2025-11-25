@@ -1,0 +1,82 @@
+{
+  "req_id": "req-8892-prod-dump",
+  "settings": {
+    "model": "deepseek-coder-v2-instruct",
+    "temperature": 0.0,
+    "max_tokens": 4096,
+    "stream": false
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a Senior Debugging Agent. Analyze the provided Python code and Server Logs to identify the specific Memory Leak in the 'ImageProcessor' class. Return the corrected code block only."
+    },
+    {
+      "role": "user",
+      "content": {
+        "context_type": "incident_report",
+        "timestamp": "2025-11-24T14:00:00Z",
+        "repository_files": [
+          {
+            "path": "src/core/processor.py",
+            "language": "python",
+            "content": "import asyncio\nimport io\nfrom PIL import Image\nimport logging\n\nclass ImageProcessor:\n    def __init__(self):\n        self.cache = {}\n        self.logger = logging.getLogger(__name__)\n\n    async def process_batch(self, image_bytes_list):\n        results = []\n        for idx, img_data in enumerate(image_bytes_list):\n            try:\n                # INTENTIONAL BUG: Not closing the buffer or clearing cache\n                buffer = io.BytesIO(img_data)\n                image = Image.open(buffer)\n                processed = image.rotate(90)\n                \n                # Storing heavy object in dict without eviction policy\n                self.cache[f'req_{idx}'] = processed\n                \n                output = io.BytesIO()\n                processed.save(output, format='JPEG')\n                results.append(output.getvalue())\n                self.logger.info(f'Processed image {idx}')\n            except Exception as e:\n                self.logger.error(f'Failed on {idx}: {str(e)}')\n        return results\n\n    def get_cache_size(self):\n        return len(self.cache)"
+          },
+          {
+            "path": "src/api/routes.py",
+            "language": "python",
+            "content": "from fastapi import APIRouter, UploadFile, File, HTTPException\nfrom src.core.processor import ImageProcessor\n\nrouter = APIRouter()\nprocessor = ImageProcessor() # Global instance (Singelton)\n\n@router.post('/upload')\nasync def upload_images(files: list[UploadFile] = File(...)):\n    data_batch = []\n    for file in files:\n        content = await file.read()\n        data_batch.append(content)\n    \n    # Calling processor\n    result = await processor.process_batch(data_batch)\n    \n    return {'status': 'success', 'processed_count': len(result), 'cache_stats': processor.get_cache_size()}"
+          },
+          {
+            "path": "k8s/deployment.yaml",
+            "language": "yaml",
+            "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: image-service\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: image-service\n  template:\n    metadata:\n      labels:\n        app: image-service\n    spec:\n      containers:\n      - name: processor\n        image: registry.internal/img-proc:v4.2\n        resources:\n          limits:\n            memory: '512Mi'\n            cpu: '500m'"
+          }
+        ],
+        "server_logs": [
+          { "ts": "2025-11-24T13:55:01Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Service startup complete. Listening on port 8000" },
+          { "ts": "2025-11-24T13:55:05Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Health check passed" },
+          { "ts": "2025-11-24T13:56:10Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Received batch request: 50 images" },
+          { "ts": "2025-11-24T13:56:11Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Processed image 0" },
+          { "ts": "2025-11-24T13:56:11Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Processed image 1" },
+          { "ts": "2025-11-24T13:56:12Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Processed image 2" },
+          { "ts": "2025-11-24T13:56:12Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Processed image 3" },
+          { "ts": "2025-11-24T13:56:15Z", "lvl": "WARN", "pod": "image-service-x992", "msg": "Memory usage spike detected: 150Mi used" },
+          { "ts": "2025-11-24T13:57:00Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Received batch request: 120 images" },
+          { "ts": "2025-11-24T13:57:05Z", "lvl": "WARN", "pod": "image-service-x992", "msg": "Memory usage spike detected: 320Mi used" },
+          { "ts": "2025-11-24T13:57:10Z", "lvl": "WARN", "pod": "image-service-x992", "msg": "Memory usage spike detected: 410Mi used" },
+          { "ts": "2025-11-24T13:57:12Z", "lvl": "WARN", "pod": "image-service-x992", "msg": "Garbage collection took 1.2s" },
+          { "ts": "2025-11-24T13:58:00Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Received batch request: 200 images" },
+          { "ts": "2025-11-24T13:58:15Z", "lvl": "ERROR", "pod": "image-service-x992", "msg": "OOMKilled: Container used 513Mi (Limit 512Mi)" },
+          { "ts": "2025-11-24T13:58:16Z", "lvl": "INFO", "pod": "image-service-x992", "msg": "Worker process restarting..." },
+          { "ts": "2025-11-24T13:55:01Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Service startup complete. Listening on port 8000" },
+          { "ts": "2025-11-24T13:55:05Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Health check passed" },
+          { "ts": "2025-11-24T13:56:10Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Received batch request: 50 images" },
+          { "ts": "2025-11-24T13:56:11Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Processed image 0" },
+          { "ts": "2025-11-24T13:56:11Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Processed image 1" },
+          { "ts": "2025-11-24T13:56:12Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Processed image 2" },
+          { "ts": "2025-11-24T13:56:12Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Processed image 3" },
+          { "ts": "2025-11-24T13:56:15Z", "lvl": "WARN", "pod": "image-service-y881", "msg": "Memory usage spike detected: 150Mi used" },
+          { "ts": "2025-11-24T13:57:00Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Received batch request: 120 images" },
+          { "ts": "2025-11-24T13:57:05Z", "lvl": "WARN", "pod": "image-service-y881", "msg": "Memory usage spike detected: 320Mi used" },
+          { "ts": "2025-11-24T13:57:10Z", "lvl": "WARN", "pod": "image-service-y881", "msg": "Memory usage spike detected: 410Mi used" },
+          { "ts": "2025-11-24T13:57:12Z", "lvl": "WARN", "pod": "image-service-y881", "msg": "Garbage collection took 1.2s" },
+          { "ts": "2025-11-24T13:58:00Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Received batch request: 200 images" },
+          { "ts": "2025-11-24T13:58:15Z", "lvl": "ERROR", "pod": "image-service-y881", "msg": "OOMKilled: Container used 513Mi (Limit 512Mi)" },
+          { "ts": "2025-11-24T13:58:16Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Worker process restarting..." },
+          { "ts": "2025-11-24T13:58:17Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Initializing new worker thread" },
+          { "ts": "2025-11-24T13:58:18Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Loading configuration" },
+          { "ts": "2025-11-24T13:58:19Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Connecting to Redis cache" },
+          { "ts": "2025-11-24T13:58:20Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Redis connection successful" },
+          { "ts": "2025-11-24T13:58:21Z", "lvl": "INFO", "pod": "image-service-y881", "msg": "Ready to accept connections" }
+        ],
+        "metrics_snapshot": {
+          "cpu_usage_percent": [12.5, 15.2, 45.1, 89.2, 99.1, 12.0],
+          "memory_usage_mb": [128, 256, 384, 450, 510, 513, 128],
+          "network_in_mbps": [0.5, 0.8, 12.5, 45.2, 0.0],
+          "network_out_mbps": [0.2, 0.2, 11.0, 40.1, 0.0]
+        }
+      }
+    }
+  ]
+}

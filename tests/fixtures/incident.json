@@ -1,0 +1,24 @@
+{
+    "incident_reports": [
+        {"id": 1, "severity": "high", "status": "open", "team": "backend", "priority": 1, "resolved": false},
+        {"id": 2, "severity": "high", "status": "open", "team": "backend", "priority": 1, "resolved": false},
+        {"id": 3, "severity": "high", "status": "open", "team": "backend", "priority": 1, "resolved": false},
+        {"id": 4, "severity": "high", "status": "resolved", "team": "backend", "priority": 1, "resolved": true},
+        {"id": 5, "severity": "high", "status": "resolved", "team": "backend", "priority": 1, "resolved": true},
+        {"id": 6, "severity": "medium", "status": "open", "team": "frontend", "priority": 2, "resolved": false},
+        {"id": 7, "severity": "medium", "status": "open", "team": "frontend", "priority": 2, "resolved": false},
+        {"id": 8, "severity": "medium", "status": "open", "team": "frontend", "priority": 2, "resolved": false},
+        {"id": 9, "severity": "medium", "status": "resolved", "team": "frontend", "priority": 2, "resolved": true},
+        {"id": 10, "severity": "medium", "status": "resolved", "team": "frontend", "priority": 2, "resolved": true},
+        {"id": 11, "severity": "low", "status": "open", "team": "devops", "priority": 3, "resolved": false},
+        {"id": 12, "severity": "low", "status": "open", "team": "devops", "priority": 3, "resolved": false},
+        {"id": 13, "severity": "low", "status": "resolved", "team": "devops", "priority": 3, "resolved": true},
+        {"id": 14, "severity": "low", "status": "resolved", "team": "devops", "priority": 3, "resolved": true},
+        {"id": 15, "severity": "low", "status": "resolved", "team": "devops", "priority": 3, "resolved": true},
+        {"id": 16, "severity": "high", "status": "open", "team": "backend", "priority": 1, "resolved": false},
+        {"id": 17, "severity": "high", "status": "open", "team": "backend", "priority": 1, "resolved": false},
+        {"id": 18, "severity": "medium", "status": "open", "team": "frontend", "priority": 2, "resolved": false},
+        {"id": 19, "severity": "medium", "status": "resolved", "team": "frontend", "priority": 2, "resolved": true},
+        {"id": 20, "severity": "low", "status": "resolved", "team": "devops", "priority": 3, "resolved": true}
+    ]
+}

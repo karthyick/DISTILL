@@ -1,0 +1,17 @@
+[
+    {"team": "backend", "remote": true, "level": "senior", "location": "NYC"},
+    {"team": "backend", "remote": true, "level": "senior", "location": "NYC"},
+    {"team": "backend", "remote": true, "level": "senior", "location": "NYC"},
+    {"team": "backend", "remote": true, "level": "junior", "location": "NYC"},
+    {"team": "backend", "remote": true, "level": "junior", "location": "NYC"},
+    {"team": "frontend", "remote": false, "level": "senior", "location": "LA"},
+    {"team": "frontend", "remote": false, "level": "senior", "location": "LA"},
+    {"team": "frontend", "remote": false, "level": "mid", "location": "LA"},
+    {"team": "frontend", "remote": false, "level": "mid", "location": "LA"},
+    {"team": "frontend", "remote": false, "level": "junior", "location": "LA"},
+    {"team": "devops", "remote": true, "level": "senior", "location": "remote"},
+    {"team": "devops", "remote": true, "level": "senior", "location": "remote"},
+    {"team": "devops", "remote": true, "level": "mid", "location": "remote"},
+    {"team": "devops", "remote": true, "level": "mid", "location": "remote"},
+    {"team": "devops", "remote": true, "level": "junior", "location": "remote"}
+]

@@ -1,0 +1,17 @@
+[
+    {"timestamp": "2024-01-01T10:00:00Z", "level": "INFO", "source": "api", "message": "Request received"},
+    {"timestamp": "2024-01-01T10:00:01Z", "level": "INFO", "source": "api", "message": "Processing started"},
+    {"timestamp": "2024-01-01T10:00:02Z", "level": "DEBUG", "source": "db", "message": "Query executed"},
+    {"timestamp": "2024-01-01T10:00:03Z", "level": "INFO", "source": "api", "message": "Response sent"},
+    {"timestamp": "2024-01-01T10:01:00Z", "level": "INFO", "source": "api", "message": "Request received"},
+    {"timestamp": "2024-01-01T10:01:01Z", "level": "INFO", "source": "api", "message": "Processing started"},
+    {"timestamp": "2024-01-01T10:01:02Z", "level": "WARN", "source": "cache", "message": "Cache miss"},
+    {"timestamp": "2024-01-01T10:01:03Z", "level": "DEBUG", "source": "db", "message": "Query executed"},
+    {"timestamp": "2024-01-01T10:01:04Z", "level": "INFO", "source": "api", "message": "Response sent"},
+    {"timestamp": "2024-01-01T10:02:00Z", "level": "ERROR", "source": "api", "message": "Request failed"},
+    {"timestamp": "2024-01-01T10:02:01Z", "level": "ERROR", "source": "db", "message": "Connection timeout"},
+    {"timestamp": "2024-01-01T10:03:00Z", "level": "INFO", "source": "api", "message": "Request received"},
+    {"timestamp": "2024-01-01T10:03:01Z", "level": "INFO", "source": "api", "message": "Processing started"},
+    {"timestamp": "2024-01-01T10:03:02Z", "level": "INFO", "source": "cache", "message": "Cache hit"},
+    {"timestamp": "2024-01-01T10:03:03Z", "level": "INFO", "source": "api", "message": "Response sent"}
+]

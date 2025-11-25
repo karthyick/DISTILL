@@ -1,0 +1,11 @@
+{
+    "config": {
+        "server": {"host": "localhost", "port": 8080},
+        "database": {"host": "localhost", "port": 5432},
+        "cache": {"host": "localhost", "port": 6379}
+    },
+    "users": [
+        {"id": 1, "name": "Alice"},
+        {"id": 2, "name": "Bob"}
+    ]
+}
