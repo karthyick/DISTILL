@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "distill-json"
-version = "0.2.0"
+version = "0.2.2"
 description = "Data Intelligent Structure Token-efficient Interchange for LLMs - Compress JSON for LLM consumption"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
 authors = [
-    {name = "KR"}
+    {name = "KR", email = "Karthickrajam18@gmail.com"}
 ]
 keywords = [
     "json",
@@ -32,6 +32,8 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Text Processing :: General",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
@@ -53,10 +55,10 @@ all = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/kr/distill"
-Documentation = "https://github.com/kr/distill#readme"
-Repository = "https://github.com/kr/distill"
-Issues = "https://github.com/kr/distill/issues"
+Homepage = "https://github.com/karthyick/DISTILL"
+Documentation = "https://github.com/karthyick/DISTILL#readme"
+Repository = "https://github.com/karthyick/DISTILL"
+Issues = "https://github.com/karthyick/DISTILL/issues"
 
 [project.scripts]
 distill = "distill.cli:main"
