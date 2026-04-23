@@ -302,8 +302,4 @@ Issues and PRs welcome. Before opening a PR, please run the test suite.
 
 ---
 
-## ⭐ Star on GitHub
-
-If this saved you tokens or cost, [star the repo](https://github.com/karthyick/DISTILL) — it helps others find it.
-
 Built by [Karthick Raja M](https://github.com/karthyick) · [aichargeworks.com](https://aichargeworks.com)
